@@ -5,6 +5,13 @@ const {
     deleteTodoById
 } = require('../database/TodoRepository');
 
+/**
+ * @description Get all todos
+ * @returns {Object: {
+ *  success: boolean,
+ *  data: Array
+ * }} - Todo object
+ */
 async function getTodos(ctx) {
     try {
         const todos = getAllTodos();
@@ -23,6 +30,18 @@ async function getTodos(ctx) {
     }
 }
 
+/**
+ * @description Add a new todo
+ * @param {Object: {
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} ctx - Koa context
+ * @returns {Object: {
+ *  success: boolean,
+ *  data: Object
+ * }} - Todo object
+ */
 async function addTodo(ctx) {
     try {
         const { title } = ctx.request.body;
@@ -50,11 +69,23 @@ async function addTodo(ctx) {
     }
 }
 
+/**
+ * @description Update a todo by ID
+ * @param {Object: {
+ *  id: string,
+ *  title: string,
+ *  completed: boolean
+ * }} ctx - Koa context
+ * @returns {Object: {
+ *  success: boolean,
+ *  data: Object
+ * }} - Todo object
+ */
 async function updateTodo(ctx) {
     try {
         const { id } = ctx.params;
         const { title, completed } = ctx.request.body;
-        const updatedTodo = updateTodoById(id, { title, completed });
+        const updatedTodo = updateTodoById(parseInt(id), { title, completed });
         ctx.status = 200;
         ctx.body = {
             success: true,
@@ -70,10 +101,20 @@ async function updateTodo(ctx) {
     }
 }
 
+/**
+ * @description Delete a todo by ID
+ * @param {Object: {
+ *  id: string
+ * }} ctx - Koa context
+ * @returns {Object: {
+ *  success: boolean,
+ *  data: Object
+ * }} - Todo object
+ */
 async function deleteTodo(ctx) {
     try {
         const { id } = ctx.params;
-        const deletedTodo = deleteTodoById(id);
+        const deletedTodo = deleteTodoById(parseInt(id));
         ctx.status = 200;
         ctx.body = {
             success: true,

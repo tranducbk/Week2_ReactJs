@@ -1,11 +1,35 @@
 const fs = require('fs');
 const path = require('path');
-const todos = require('./todos.json').data;
+const {data: todos} = require('./todos.json');
 
+/**
+ * @description Get all todos
+ * @returns {Array: {
+ *  id: number,
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} - Array of todos
+ */
 function getAllTodos() {
     return todos;
 }
 
+/**
+ * @description Add a new todo
+ * @param {Object: {
+ *  id: number,
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} data - Todo data
+ * @returns {Object: {
+ *  id: number,
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} - New todo
+ */
 function addNewTodo(data) {
     if (!data.title) {
         throw new Error('Title is required');
@@ -28,8 +52,23 @@ function addNewTodo(data) {
     return newTodo;
 }
 
+/**
+ * @description Update a todo by ID
+ * @param {number} id - Todo ID
+ * @param {Object: {
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} data - Todo data
+ * @returns {Object: {
+ *  id: number,
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} - Updated todo
+ */
 function updateTodoById(id, data) {
-    const todoIndex = todos.findIndex(todo => todo.id === parseInt(id));
+    const todoIndex = todos.findIndex(todo => todo.id === id);
     if (todoIndex === -1) {
         throw new Error('Todo not found');
     }
@@ -40,8 +79,18 @@ function updateTodoById(id, data) {
     return todos[todoIndex];
 }
 
+/**
+ * @description Delete a todo by ID
+ * @param {number} id - Todo ID
+ * @returns {Object: {
+ *  id: number,
+ *  title: string,
+ *  description: string,
+ *  completed: boolean
+ * }} - Deleted todo
+ */
 function deleteTodoById(id) {
-    const todoIndex = todos.findIndex(todo => todo.id === parseInt(id));
+    const todoIndex = todos.findIndex(todo => todo.id === id);
     if (todoIndex === -1) {
         throw new Error('Todo not found');
     }
